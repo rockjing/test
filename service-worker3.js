@@ -1,3 +1,8 @@
+//cachestorage名称，可以加上版本号予以区分
+const OFFLINE_CACHE_PREFIX = 'offline_page_';
+const CACHE_VERSION = 'v1.0';
+const OFFLINE_CACHE_NAME = OFFLINE_CACHE_PREFIX + CACHE_VERSION;
+
 self.addEventListener('message', function(event) {
 
     var promise = self.clients.matchAll()
