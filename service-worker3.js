@@ -1,4 +1,5 @@
 self.addEventListener('message', function(event) {
+
     var promise = self.clients.matchAll()
         .then(function(clientList) {
             var senderID = event.source ? event.source.id : 'unknown';
@@ -30,3 +31,22 @@ self.addEventListener('message', function(event) {
 self.addEventListener('activate', function(event) {
     event.waitUntil(self.clients.claim());
 });
+
+//rock add
+//Service Worker 请求拦截事件
+this.addEventListener('fetch', function(event)  {
+   var url;
+    url =event.request.url;
+  event.respondWith(
+    caches.open(OFFLINE_CACHE_NAME).then(function(cache) {
+      return cache.match(event.request.url);
+    }).then(function(response){
+      //response为空表明未匹配成功，交由fetch方法去网络拉取
+      if(response) {
+        return response;
+      }
+      return fetch(event.request);
+    })
+  ); 
+});
+
